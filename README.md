@@ -1,52 +1,86 @@
 # HPC-Enabled eARM Pipeline for High-Throughput Photoreceptor Mutant Discovery
 
-## 📌 Project Overview
-This project sets up and adapts the **a-ARM / pyARM pipeline** for **high-throughput screening of rhodopsin-like photoreceptor mutants**.  
-The pipeline integrates molecular modeling, structural analysis, and QM/MM simulations to predict mutations that alter spectral properties of photopigments.
+This project sets up the **a-ARM / pyARM pipeline**, a computational framework for high-throughput screening of rhodopsin-like photoreceptor mutants with altered fluorescent and spectral properties.  
 
-Our goal is to **deploy this workflow on HPC systems**, enabling automated, reproducible, and scalable discovery of fluorescent protein mutants.
-
----
-
-## 🚀 Current Status
-✅ Installed Python environment (Miniconda, Python 3.9)  
-✅ Installed required Python packages (`numpy`, `propka`, `python-crontab`, `texttable`)  
-✅ Installed core tools: **VMD, GROMACS 4.5.7, and pdb2pqr 2.1.1**  
-⏳ Waiting on **Dowser source code and module templates** from collaborators  
-🔜 Next steps: Configure `arm_config.yaml` and enable HPC cluster execution  
+## Purpose
+The pipeline integrates molecular modeling, structural analysis, and quantum-mechanical/molecular-mechanical (QM/MM) methods to accelerate discovery of engineered photopigments. It automates workflows that would otherwise be slow and labor-intensive in the lab.
 
 ---
 
-## 🧩 Installation Progress (MacOS)
-1. **Miniconda + Python Environment**  
-   - Created `pyarm2021` conda environment  
-   - Installed scientific packages and dependencies  
-
-2. **Core Tools Installed**  
-   - VMD (for protein visualization)  
-   - GROMACS 4.5.7 (for molecular dynamics)  
-   - pdb2pqr 2.1.1 (for electrostatics preprocessing)  
-
-3. **Pending Tools**  
-   - Orient (optional, not yet installed)  
-   - Dowser (awaiting source code from collaborators)  
+## Requirements
+- Python 3.9 via Miniconda (or Anaconda)
+- VMD
+- Orient
+- GROMACS 4.5.5 or 4.5.7
+- pdb2pqr 2.1.1 (from provided source, not pip/conda)
+- Dowser (source code provided by project team)
+- Molcas (external license/software)
+- Modules system (to manage environment variables in HPC clusters)
 
 ---
 
-## 🎯 Roadmap
-- **Sprint 1 (Sep 8 – Sep 21):** Complete installation & testing of pyARM environment  
-- **Sprint 2–4:** Configure HPC cluster integration, test small-scale protein mutants  
-- **Sprint 5–6:** High-throughput screening runs, validate results against literature  
+## Installation Summary
+
+### Step 1: Python Environment
+- Create a conda environment (`pyarm2021`)  
+- Install Python packages:
+  - pip: `numpy`, `propka`, `python-crontab`, `texttable`  
+  - conda: `fpocket`, `mdanalysis`, `openbabel`, `GromacsWrapper`, `modeller`  
+- Configure Modeller with license key  
+- Configure `GromacsWrapper` once GROMACS is installed  
+
+### Step 2: VMD and Orient
+- Install VMD (GUI + CLI)  
+- Install Orient (tarball provided separately)
+
+### Step 3: GROMACS 4.5.7
+- Build from source using GCC  
+- Add binaries to PATH  
+- Test installation with `mdrun`, `grompp`, etc.
+
+### Step 4: pdb2pqr 2.1.1
+- Install from provided tarball (not pip)  
+- Add binary to PATH  
+
+### Step 5: Dowser (waiting for source code)  
+- Requires manual fix (bug at line 225) and compiler setup  
+- Needs atomdict.db replacement  
+
+### Step 6: pyARM
+- Clone repo from GitLab  
+- Compile `put_ion` (Fortran)  
+- Configure `arm_config.yaml` with correct paths for VMD, pdb2pqr, Modeller, fpocket, Dowser, Molcas, GROMACS  
+- Configure module files (`pyARM-2021`, `gromacs`, `miniconda`, `molcas`)  
+- Modify hard-coded settings for cluster name (`my_machine`)  
+- Install pyARM (`python setup.py install`)  
+- Verify cron job scheduling
 
 ---
 
-## 👩‍💻 Team
-- **Lead:** Vani Walvekar  
-- **Collaborators:** Maureen Donlin, Ajith Karunarathne  
-- **Developers:** Ralph Tan, Atiqullah Asghari  
+## Client
+- Dr. Maureen Donlin  
+- Dr. Ajith Karunarathne  
 
 ---
 
-## 📬 Contact
-For questions or collaboration:  
-**Vani Walvekar** – vani.walvekar@slu.edu  
+## Developers
+- Vani Walvekar (Team Lead)   
+- Ralph Tan (Developer)  
+- Atiqullah Asghari (Developer)  
+
+---
+
+## Current Status
+✅ Miniconda and Python environment installed  
+✅ Core Python packages installed  
+✅ VMD installed  
+✅ GROMACS 4.5.7 installed  
+✅ pdb2pqr 2.1.1 installed  
+⏳ Waiting for Dowser source code and module templates  
+
+---
+
+## Next Steps
+- Obtain Dowser code and module templates from client  
+- Configure `arm_config.yaml` and module files  
+- Install pyARM and run test workflows  
