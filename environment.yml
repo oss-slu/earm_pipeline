@@ -1,0 +1,16 @@
+name: pyarm2021
+channels:
+  - conda-forge
+  - salilab
+  - defaults
+dependencies:
+  - python=3.9
+  - numpy
+  - propka
+  - texttable
+  - python-crontab
+  - fpocket
+  - mdanalysis
+  - openbabel
+  - GromacsWrapper
+  - modeller
