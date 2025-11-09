@@ -1,86 +1,88 @@
 # HPC-Enabled eARM Pipeline for High-Throughput Photoreceptor Mutant Discovery
 
-This project sets up the **a-ARM / pyARM pipeline**, a computational framework for high-throughput screening of rhodopsin-like photoreceptor mutants with altered fluorescent and spectral properties.  
-
-## Purpose
-The pipeline integrates molecular modeling, structural analysis, and quantum-mechanical/molecular-mechanical (QM/MM) methods to accelerate discovery of engineered photopigments. It automates workflows that would otherwise be slow and labor-intensive in the lab.
+This project sets up the **a-ARM / pyARM pipeline**, a computational framework for high-throughput screening of rhodopsin-like photoreceptor mutants with altered fluorescent and spectral properties. The pipeline integrates molecular modeling, structural analysis, and QM/MM methods to accelerate discovery of engineered photopigments. It automates workflows that would otherwise be slow and labor-intensive in the lab.
 
 ---
 
 ## Requirements
-- Python 3.9 via Miniconda (or Anaconda)
-- VMD
-- Orient
-- GROMACS 4.5.5 or 4.5.7
-- pdb2pqr 2.1.1 (from provided source, not pip/conda)
-- Dowser (source code provided by project team)
-- Molcas (external license/software)
-- Modules system (to manage environment variables in HPC clusters)
+
+- Python 3.9 via Miniconda (or Anaconda)  
+- VMD  
+- Orient  
+- GROMACS 4.5.7  
+- pdb2pqr 2.1.1 (from provided source, not pip/conda)  
+- Dowser (source code provided by project team)  
+- Molcas (external license/software)  
+- Modules system (to manage environment variables in HPC clusters)  
 
 ---
 
-## Installation Summary
+## Installation Summary & Current Status
 
 ### Step 1: Python Environment
-- Create a conda environment (`pyarm2021`)  
-- Install Python packages:
+- ✅ Shared Conda environment (`pyarm2021`) created under `/projects/earm/envs/pyarm2021`  
+- ✅ Python packages installed:  
   - pip: `numpy`, `propka`, `python-crontab`, `texttable`  
   - conda: `fpocket`, `mdanalysis`, `openbabel`, `GromacsWrapper`, `modeller`  
-- Configure Modeller with license key  
-- Configure `GromacsWrapper` once GROMACS is installed  
+- ✅ Modeller configured with license  
+- ✅ GromacsWrapper configured for GROMACS  
 
 ### Step 2: VMD and Orient
-- Install VMD (GUI + CLI)  
-- Install Orient (tarball provided separately)
+- ✅ VMD installed (GUI + CLI)  
+- ✅ Orient installed  
 
 ### Step 3: GROMACS 4.5.7
-- Build from source using GCC  
-- Add binaries to PATH  
-- Test installation with `mdrun`, `grompp`, etc.
+- ✅ Built from source using GCC  
+- ✅ Binaries added to PATH  
+- ✅ Installation verified with `mdrun`, `grompp`, `pdb2gmx`  
 
 ### Step 4: pdb2pqr 2.1.1
-- Install from provided tarball (not pip)  
-- Add binary to PATH  
+- ⏳ Pending installation and configuration from source  
 
-### Step 5: Dowser (waiting for source code)  
-- Requires manual fix (bug at line 225) and compiler setup  
-- Needs atomdict.db replacement  
+### Step 5: Dowser
+- ⏳ Pending installation and configuration  
+  - Requires source code and manual bug fix  
+  - Requires atomdict.db replacement  
+  - Requires compilation using available Fortran compiler  
 
 ### Step 6: pyARM
-- Clone repo from GitLab  
-- Compile `put_ion` (Fortran)  
-- Configure `arm_config.yaml` with correct paths for VMD, pdb2pqr, Modeller, fpocket, Dowser, Molcas, GROMACS  
-- Configure module files (`pyARM-2021`, `gromacs`, `miniconda`, `molcas`)  
-- Modify hard-coded settings for cluster name (`my_machine`)  
-- Install pyARM (`python setup.py install`)  
-- Verify cron job scheduling
+- ⏳ Pending installation and integration  
+  - Clone repository into `/projects/earm/software`  
+  - Compile `put_ion` (Fortran)  
+  - Configure `arm_config.yaml` and `a_arm_paths.py` with absolute paths for all tools (VMD, pdb2pqr, Modeller, fpocket, Dowser, Molcas, GROMACS)  
+  - Configure module files (`pyARM-2021`, `gromacs`, `miniconda`, `molcas`)  
+  - Install pyARM (`python setup.py install`) inside shared Conda environment  
+  - Verify cron job scheduling  
+  - Run final end-to-end test with small PDB example  
 
 ---
 
-## Client
-- Dr. Maureen Donlin  
-- Dr. Ajith Karunarathne  
+## Next Steps / Final Sprint
+
+- Install and configure **pdb2pqr 2.1.1** from source  
+- Install and verify **Dowser** with bug fix and atomdict.db  
+- Compile `put_ion` and configure `arm_config.yaml` and `a_arm_paths.py`  
+- Install pyARM into shared Conda environment  
+- Configure module files for HPC usage  
+- Run final **end-to-end test** on a small sample PDB  
+- Ensure cron scheduler works for automated runs  
 
 ---
 
-## Developers
-- Vani Walvekar (Team Lead)   
-- Ralph Tan (Developer)  
-- Atiqullah Asghari (Developer)  
+## Quick Usage Instructions (After Final Deployment)
 
----
+1. Load module and activate environment:
 
-## Current Status
-✅ Miniconda and Python environment installed  
-✅ Core Python packages installed  
-✅ VMD installed  
-✅ GROMACS 4.5.7 installed  
-✅ pdb2pqr 2.1.1 installed  
-⏳ Waiting for Dowser source code and module templates  
+```bash
+module use /projects/earm/modules
+module load pyARM-2021
+# Or manually:
+source /projects/earm/local/miniconda3/conda/bin/activate /projects/earm/envs/pyarm2021
+export PATH=/projects/earm/software/gromacs-4.5.7/installation/bin:$PATH
 
----
-
-## Next Steps
-- Obtain Dowser code and module templates from client  
-- Configure `arm_config.yaml` and module files  
-- Install pyARM and run test workflows  
+2. Run pyARM on an input PDB:
+cd /projects/earm/users/<your_user>
+python /projects/earm/software/a-arm_fluorescence_search/scripts/run_a_arm.py \
+      --input myprotein.pdb \
+      --config /projects/earm/software/a-arm_fluorescence_search/arm_config.yaml
+Cron will automate execution if configured.
