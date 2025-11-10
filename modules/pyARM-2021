@@ -1,0 +1,7 @@
+#%Module1.0
+module-whatis "pyARM 2021 project module"
+module load gromacs-4.5.7
+prepend-path PATH /projects/earm/envs/pyarm2021/bin
+prepend-path PYTHONPATH /projects/earm/envs/pyarm2021/lib/python3.9/site-packages
+setenv AARM_ROOT /projects/earm/software/a-arm_fluorescence_search
+setenv a_arm_communicate_folder $env(HOME)/.a_arm_communicate_folder
