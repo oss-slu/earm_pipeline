@@ -1,0 +1,15 @@
+vmd: vmd
+pdb2pqr_launcher: python2 /projects/earm/pdb2pqr-2.1.1/pdb2pqr
+put_ion_launcher: /projects/earm/software/a-arm_fluorescence_search/put_ion/ion.x
+modeller_launcher: /projects/earm/envs/pyarm2021/bin/mod10.2
+propka_launcher: python3 /projects/earm/envs/pyarm2021/bin/propka3
+fpocket_launcher: /projects/earm/envs/pyarm2021/bin/fpocket
+force_field: amber
+dowser: /projects/earm/software/dowser/bin
+template_arm_folder: /projects/earm/software/a-arm_fluorescence_search/scripts/templates
+ff_db: /projects/earm/software/a-arm_fluorescence_search/scripts/templates/ff_db
+gromacs_tools: /projects/earm/software/gromacs-4.5.7/installation/bin
+gromacs_module: gromacs-4.5.7
+tinker_tools: /projects/earm/software/tinker/bin   # set only if installed
+molcas_launcher: /projects/earm/software/molcas/launcher   # set only if installed
+cluster: libra
