@@ -1,0 +1,42 @@
+* * * * * * * * * * * * * * * * * * * * * * * * * * * *
+* Installing dowser program
+* Enter a machine type from among the following choices:
+*  aix  dec  hp  linux  sgi  sgi-mips4  sun  
+* -->*
+* The Install script has created a file called dowserinit
+* The contents of this file are:
+* ---------
+setenv DOWSER /projects/earm/dowser/dowser
+setenv DOW_MACH linux
+set path = ( $path $DOWSER/bin $DOWSER/bin/$DOW_MACH )
+* ---------
+ 
+NOTABENE
+In future use of dowser include this statement in your .cshrc file:
+    source dowserinit
+NOTABENE
+ 
+* * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*
+* Now Install will proceed to make DOWSER
+cd linux ; make -f ../Makefile.arch
+make[1]: Entering directory '/projects/earm/dowser/dowser/CODE/linux'
+gcc -c -DLinux -I.. ../AddAtoms.c -o AddAtoms.o
+gcc -c -DLinux -I.. ../chooser.c -o chooser.o
+gcc -c -DLinux -I.. ../drain.c -o drain.o
+gcc -c -DLinux -I.. ../pdb2ms.c -o pdb2ms.o
+gcc -c -DLinux -I.. ../readPDB10.c -o readPDB10.o
+gcc -c -DLinux -I.. ../reformatPDB.c -o reformatPDB.o
+../reformatPDB.c: In function 'main':
+../reformatPDB.c:306:13: error: implicit declaration of function 'AddAllAtoms'; did you mean 'Add1Atom'? [-Wimplicit-function-declaration]
+  306 |     if (i = AddAllAtoms (newnAtoms,newatoms,atomtypes, FALSE)) {
+      |             ^~~~~~~~~~~
+      |             Add1Atom
+../reformatPDB.c: In function 'CysSG':
+../reformatPDB.c:654:13: error: implicit declaration of function 'LocateInResidue' [-Wimplicit-function-declaration]
+  654 |       if (j=LocateInResidue(atoms,resnum,residues,"SG")) {
+      |             ^~~~~~~~~~~~~~~
+make[1]: *** [../Makefile.arch:33: reformatPDB.o] Error 1
+make[1]: Leaving directory '/projects/earm/dowser/dowser/CODE/linux'
+make: *** [Makefile:28: all] Error 2
+* * * * * * * * * * * * * * * * * * * * * * * * * * * *
